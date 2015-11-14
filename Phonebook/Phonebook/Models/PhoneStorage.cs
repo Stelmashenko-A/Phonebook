@@ -6,9 +6,11 @@ namespace Phonebook.Models
     {
         public PhoneStorage()
         {
-            Data = new Dictionary<Account, IList<Account>>();
+            Data = new Dictionary<int,KeyValuePair<Account,IList<Phone>>>();
         }
 
-        public IDictionary<Account, IList<Account>> Data { get; protected set; }
+        public Dictionary<int, KeyValuePair<Account, IList<Phone>>> Data { get; protected set; }
+
+        public int MaxId = 1;
     }
 }

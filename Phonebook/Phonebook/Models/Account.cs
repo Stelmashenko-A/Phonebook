@@ -2,14 +2,11 @@
 {
     public class Account
     {
-        public Account(int id, int userName)
+        public Account( string userName)
         {
-            Id = id;
             UserName = userName;
         }
 
-        public int Id { get; protected set; }
-
-        public int UserName { get; protected set; }
+        public string UserName { get; protected set; }
     }
 }
