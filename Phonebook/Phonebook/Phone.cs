@@ -1,6 +1,6 @@
 ﻿namespace Phonebook
 {
-    public class Class1
+    public class Phone
     {
     }
 }
