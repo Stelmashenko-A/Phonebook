@@ -9,7 +9,7 @@ namespace Phonebook
         IList<Phone> GetPhone(string userName);
 
         IQueryable<string> GetAllUserNames();
-        IQueryable<KeyValuePair<string, IList<Phone>>> GetAllPhones(); 
+        IQueryable<KeyValuePair<string, IList<Phone>>> GetAllPhones();
 
         void AddUser(string userName, IList<Phone> phones);
         void AddUser(string userName);
