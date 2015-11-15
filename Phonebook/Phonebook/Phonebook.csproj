@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\MultipleUserNameException.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Phone.cs" />

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Phonebook.Exceptions;
 
 namespace Phonebook.Test
 {
@@ -126,6 +127,31 @@ namespace Phonebook.Test
                 Assert.IsTrue(phones.Contains(variable));
             }
             Assert.AreEqual(phones.Count, phones.Count);
+        }
+
+        [TestMethod]
+        public void IdNotExistExceptionTest()
+        {
+           Assert.IsNull(_ravenRepository.GetPhone(int.MaxValue));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MultipleUserNameException))]
+        public void MultipleUserNameExceptionTest()
+        {
+            _ravenRepository.GetId("multiple");
+        }
+
+        [TestMethod]
+        public void GetIdWhichNotExistTest()
+        {
+            Assert.AreEqual(-1,_ravenRepository.GetId("not exist"));   
+        }
+
+        [TestMethod]
+        public void GetPhonesNotExistedUserExistTest()
+        {
+            Assert.IsNull(_ravenRepository.GetPhone("not exist"));
         }
     }
 }
