@@ -2,7 +2,7 @@
 {
     public class Account
     {
-        public Account( string userName)
+        public Account(string userName)
         {
             UserName = userName;
         }

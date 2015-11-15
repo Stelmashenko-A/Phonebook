@@ -20,15 +20,18 @@ namespace Phonebook
                 DefaultDatabase = "Phonebook"
             };
             Store.Initialize();
-        
+
         }
 
         protected int ReservNextId()
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<PhoneStorage>().First().MaxId++;
-                return session.Query<PhoneStorage>().First().MaxId;
+                var maxId = session.Query<PhoneStorage>().First().MaxId;
+                maxId++;
+                session.Query<PhoneStorage>().First().MaxId = maxId;
+                session.SaveChanges();
+                return maxId;
             }
         }
 
@@ -64,8 +67,11 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                //todo
-                return null;
+                var phoneStorage = session.Query<PhoneStorage>().First().Data;
+                return
+                    phoneStorage.Values.Select(
+                        variable => new KeyValuePair<string, IList<Phone>>(variable.Key.UserName, variable.Value))
+                        .ToList();
             }
         }
 
@@ -73,7 +79,9 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<PhoneStorage>().First().Data.Add(ReservNextId(),new KeyValuePair<Account, IList<Phone>>(new Account(userName),phones ));
+                session.Query<PhoneStorage>()
+                    .First()
+                    .Data.Add(ReservNextId(), new KeyValuePair<Account, IList<Phone>>(new Account(userName), phones));
                 session.SaveChanges();
             }
         }
@@ -82,7 +90,10 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<PhoneStorage>().First().Data.Add(ReservNextId(), new KeyValuePair<Account, IList<Phone>>(new Account(userName), new List<Phone>()));
+                var id = ReservNextId();
+                session.Query<PhoneStorage>()
+                    .First()
+                    .Data.Add(id, new KeyValuePair<Account, IList<Phone>>(new Account(userName), new List<Phone>()));
                 session.SaveChanges();
             }
         }
@@ -173,13 +184,20 @@ namespace Phonebook
             }
         }
 
-        protected int GetId(string userName)
+        public int GetId(string userName)
         {
             using (var session = Store.OpenSession())
             {
-                return session.Query<PhoneStorage>()
-                    .First()
-                    .Data.First(x => x.Value.Key.UserName == userName).Key;
+                try
+                {
+                    return session.Query<PhoneStorage>()
+                        .First()
+                        .Data.First(x => x.Value.Key.UserName == userName).Key;
+                }
+                catch (InvalidOperationException)
+                {
+                    return -1;
+                }
             }
         }
     }

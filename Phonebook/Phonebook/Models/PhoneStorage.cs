@@ -6,7 +6,7 @@ namespace Phonebook.Models
     {
         public PhoneStorage()
         {
-            Data = new Dictionary<int,KeyValuePair<Account,IList<Phone>>>();
+            Data = new Dictionary<int, KeyValuePair<Account, IList<Phone>>>();
         }
 
         public Dictionary<int, KeyValuePair<Account, IList<Phone>>> Data { get; protected set; }

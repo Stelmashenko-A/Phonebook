@@ -25,5 +25,7 @@ namespace Phonebook
 
         void RemovePhone(int id, Phone phone);
         void RemovePhone(string userName, Phone phone);
+
+        int GetId(string userName);
     }
 }
