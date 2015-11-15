@@ -35,7 +35,7 @@ namespace Phonebook
             }
         }
 
-        public IList<Phone> GetPhone(int id)
+        public IEnumerable<Phone> GetPhone(int id)
         {
             using (var session = Store.OpenSession())
             {
@@ -44,7 +44,7 @@ namespace Phonebook
             }
         }
 
-        public IList<Phone> GetPhone(string userName)
+        public IEnumerable<Phone> GetPhone(string userName)
         {
             using (var session = Store.OpenSession())
             {
@@ -55,15 +55,15 @@ namespace Phonebook
             }
         }
 
-        public IList<string> GetAllUserNames()
+        public IEnumerable<string> GetAllUserNames()
         {
             using (var session = Store.OpenSession())
             {
-                return session.Query<PhoneStorage>().First().Data.Values.Select(x => x.Key.UserName).ToList();
+                return session.Query<PhoneStorage>().First().Data.Values.Select(x => x.Key.UserName);
             }
         }
 
-        public IList<KeyValuePair<string, IList<Phone>>> GetAllPhones()
+        public IEnumerable<KeyValuePair<string, IList<Phone>>> GetAllPhones()
         {
             using (var session = Store.OpenSession())
             {

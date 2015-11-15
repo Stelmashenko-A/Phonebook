@@ -23,14 +23,14 @@ namespace Phonebook.Test
         {
             var phones = _ravenRepository.GetPhone(2);
 
-            Assert.AreEqual(0, phones.Count);
+            Assert.AreEqual(0, phones.ToList().Count);
         }
 
         [TestMethod]
         public void GetPhoneByNameTest()
         {
             var phones = _ravenRepository.GetPhone("Andrew");
-            Assert.AreEqual(0, phones.Count);
+            Assert.AreEqual(0, phones.ToList().Count);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace Phonebook.Test
             var phones = new List<Phone> {new Phone("+375444444444"), new Phone("+375447777777")};
 
             _ravenRepository.AddPhone(userName, phones);
-            var phonesFromBd = _ravenRepository.GetPhone(userName);
+            var phonesFromBd = _ravenRepository.GetPhone(userName).ToList();
             foreach (var variable in phonesFromBd)
             {
                 _ravenRepository.RemovePhone(userName,variable);
@@ -116,7 +116,7 @@ namespace Phonebook.Test
             var phones = new List<Phone> { new Phone("+375444444444"), new Phone("+375447777777") };
 
             _ravenRepository.AddPhone(id, phones);
-            var phonesFromBd = _ravenRepository.GetPhone(id);
+            var phonesFromBd = _ravenRepository.GetPhone(id).ToList();
             foreach (var variable in phonesFromBd)
             {
                 _ravenRepository.RemovePhone(id, variable);
@@ -125,7 +125,7 @@ namespace Phonebook.Test
             {
                 Assert.IsTrue(phones.Contains(variable));
             }
-            Assert.AreEqual(phones.Count, phonesFromBd.Count);
+            Assert.AreEqual(phones.Count, phones.Count);
         }
     }
 }

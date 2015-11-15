@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Phonebook
 {
     public interface IRepository
     {
-        IList<Phone> GetPhone(int id);
-        IList<Phone> GetPhone(string userName);
+        IEnumerable<Phone> GetPhone(int id);
+        IEnumerable<Phone> GetPhone(string userName);
 
-        IList<string> GetAllUserNames();
-        IList<KeyValuePair<string, IList<Phone>>> GetAllPhones();
+        IEnumerable<string> GetAllUserNames();
+        IEnumerable<KeyValuePair<string, IList<Phone>>> GetAllPhones();
 
         void AddUser(string userName, IList<Phone> phones);
         void AddUser(string userName);
