@@ -13,15 +13,14 @@ namespace Phonebook
     {
         protected readonly IDocumentStore Store;
 
-        public RavenRepository()
+        public RavenRepository(string name)
         {
             Store = new DocumentStore
             {
                 Url = "http://localhost:8081/",
-                DefaultDatabase = "Phonebook"
+                DefaultDatabase = name
             };
             Store.Initialize();
-
         }
 
         protected int ReservNextId()
@@ -180,7 +179,7 @@ namespace Phonebook
             {
                 var tmp = session.Query<PhoneStorage>()
                     .First()
-                    .Data[id].Value.First(x => x.Value == phone.Value);
+                    .Data[id].Value.First(x => x.Number == phone.Number);
                 session.Query<PhoneStorage>()
                     .First()
                     .Data[id].Value.Remove(tmp);
@@ -195,7 +194,7 @@ namespace Phonebook
                 var id = GetId(userName);
                 var tmp = session.Query<PhoneStorage>()
                     .First()
-                    .Data[id].Value.First(x => x.Value == phone.Value);
+                    .Data[id].Value.First(x => x.Number == phone.Number);
                 session.Query<PhoneStorage>()
                     .First()
                     .Data[id].Value.Remove(tmp);

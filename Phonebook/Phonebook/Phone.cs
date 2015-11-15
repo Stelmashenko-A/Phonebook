@@ -2,12 +2,15 @@
 {
     public class Phone
     {
-        public Phone(string value)
+        public Phone(string number, string description="")
         {
-            Value = value;
+            Number = number;
+            Description = description;
         }
 
-        public string Value { get; }
+        public string Number { get; }
+
+        public string Description { get; }
 
         public override bool Equals(object obj)
         {
@@ -17,12 +20,12 @@
 
         public bool Equals(Phone other)
         {
-            return string.Equals(Value, other.Value);
+            return string.Equals(Number, other.Number);
         }
 
         public override int GetHashCode()
         {
-            return Value?.GetHashCode() ?? 0;
+            return Number?.GetHashCode() ?? 0;
         }
     }
 }

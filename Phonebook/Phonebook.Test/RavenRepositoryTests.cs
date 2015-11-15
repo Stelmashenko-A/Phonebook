@@ -8,7 +8,7 @@ namespace Phonebook.Test
     [TestClass]
     public class RavenRepositoryTests
     {
-        private readonly RavenRepository _ravenRepository = new RavenRepository();
+        private readonly RavenRepository _ravenRepository = new RavenRepository("PhonebookTest");
 
         [TestMethod]
         public void AddUserTest()
@@ -22,7 +22,7 @@ namespace Phonebook.Test
         [TestMethod]
         public void GetPhoneByIdTest()
         {
-            var phones = _ravenRepository.GetPhone(2);
+            var phones = _ravenRepository.GetPhone(5);
 
             Assert.AreEqual(0, phones.ToList().Count);
         }
@@ -94,6 +94,7 @@ namespace Phonebook.Test
         public void AddRemoveListOfPhonesByUserNameTest()
         {
             const string userName = "TestPhones";
+
             var phones = new List<Phone> {new Phone("+375444444444"), new Phone("+375447777777")};
 
             _ravenRepository.AddPhone(userName, phones);
