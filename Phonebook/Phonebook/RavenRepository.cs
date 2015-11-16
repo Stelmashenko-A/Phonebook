@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Phonebook.Exceptions;
 using Phonebook.Models;
@@ -92,9 +91,10 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
+                var id = ReservNextId();
                 session.Query<PhoneStorage>()
                     .First()
-                    .Data.Add(ReservNextId(), new KeyValuePair<Account, IList<Phone>>(new Account(userName), phones));
+                    .Data.Add(id, new KeyValuePair<Account, IList<Phone>>(new Account(userName), phones));
                 session.SaveChanges();
             }
         }

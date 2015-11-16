@@ -7,6 +7,8 @@ namespace UserInterface
     {
         private readonly IRepository _repository;
         private readonly string _userName;
+        public string Phone { get; protected set; }
+        public string Description { get; protected set; }
 
         public PhoneForm(IRepository repository, string userName)
         {
@@ -15,9 +17,22 @@ namespace UserInterface
             InitializeComponent();
         }
 
+        public PhoneForm()
+        {
+            InitializeComponent();
+        }
+
         private void buttonAdd_Click(object sender, System.EventArgs e)
         {
-            _repository.AddPhone(_userName,new Phone(textBoxPhone.Text,textBoxDescription.Text));
+            if (_repository != null)
+            {
+                _repository.AddPhone(_userName, new Phone(textBoxPhone.Text, textBoxDescription.Text));
+            }
+            else
+            {
+                Phone = textBoxPhone.Text;
+                Description = textBoxDescription.Text;
+            }
             Close();
         }
 
