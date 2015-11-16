@@ -13,6 +13,8 @@ namespace UserInterface
         {
             InitializeComponent();
             listBoxUsers.DataSource = _repository.GetAllUserNames().ToList();
+            dataGridViewPhones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewPhones.MultiSelect = false;
         }
 
         private void listBoxUsers_SelectedIndexChanged(object sender, System.EventArgs e)

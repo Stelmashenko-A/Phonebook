@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.dataGridViewPhones = new System.Windows.Forms.DataGridView();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonAddNumber = new System.Windows.Forms.Button();
             this.buttonRemovePhone = new System.Windows.Forms.Button();
             this.buttonSaveAccount = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhones)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -49,23 +49,23 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Full name";
             // 
-            // textBox1
+            // textBoxName
             // 
-            this.textBox1.Location = new System.Drawing.Point(58, 9);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(245, 20);
-            this.textBox1.TabIndex = 1;
+            this.textBoxName.Location = new System.Drawing.Point(58, 9);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(245, 20);
+            this.textBoxName.TabIndex = 1;
             // 
-            // dataGridView1
+            // dataGridViewPhones
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewPhones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPhones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Number,
             this.Description});
-            this.dataGridView1.Location = new System.Drawing.Point(58, 35);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(245, 107);
-            this.dataGridView1.TabIndex = 2;
+            this.dataGridViewPhones.Location = new System.Drawing.Point(58, 35);
+            this.dataGridViewPhones.Name = "dataGridViewPhones";
+            this.dataGridViewPhones.Size = new System.Drawing.Size(245, 107);
+            this.dataGridViewPhones.TabIndex = 2;
             // 
             // Number
             // 
@@ -127,12 +127,14 @@
             this.Controls.Add(this.buttonRemovePhone);
             this.Controls.Add(this.buttonAddNumber);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.dataGridViewPhones);
+            this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MinimizeBox = false;
             this.Name = "NewUser";
             this.Text = "NewUser";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhones)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,8 +143,8 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.DataGridView dataGridViewPhones;
         private System.Windows.Forms.DataGridViewTextBoxColumn Number;
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
         private System.Windows.Forms.Label label2;

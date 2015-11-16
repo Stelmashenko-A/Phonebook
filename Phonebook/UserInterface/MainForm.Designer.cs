@@ -122,6 +122,9 @@
             this.Controls.Add(this.buttonAddPhone);
             this.Controls.Add(this.dataGridViewPhones);
             this.Controls.Add(this.listBoxUsers);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Phonebook";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhones)).EndInit();
