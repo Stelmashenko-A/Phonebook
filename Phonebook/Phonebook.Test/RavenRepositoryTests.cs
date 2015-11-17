@@ -4,7 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Phonebook.Exceptions;
 
 namespace Phonebook.Test
-{
+    //moq
+{//todo setup
     [TestClass]
     public class RavenRepositoryTests
     {
@@ -18,11 +19,11 @@ namespace Phonebook.Test
             _ravenRepository.RemoveUser("TestUser");
             Assert.IsTrue(tmp.Contains("TestUser"));
         }
-
+        
         [TestMethod]
         public void GetPhoneByIdTest()
         {
-            var phones = _ravenRepository.GetPhone(5);
+            var phones = _ravenRepository.GetPhone(21);
 
             Assert.AreEqual(0, phones.ToList().Count);
         }
@@ -30,7 +31,7 @@ namespace Phonebook.Test
         [TestMethod]
         public void GetPhoneByNameTest()
         {
-            var phones = _ravenRepository.GetPhone("Andrew");
+            var phones = _ravenRepository.GetPhone("TestUser");
             Assert.AreEqual(0, phones.ToList().Count);
         }
 
@@ -114,6 +115,7 @@ namespace Phonebook.Test
         public void AddRemoveListOfPhonesByIdNameTest()
         {
             const string userName = "TestPhones";
+            _ravenRepository.AddUser(userName);
             var id = _ravenRepository.GetId(userName);
             var phones = new List<Phone> { new Phone("+375444444444"), new Phone("+375447777777") };
 

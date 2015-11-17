@@ -52,6 +52,8 @@
     <Compile Include="Exceptions\MultipleUserNameException.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\MaxId.cs" />
     <Compile Include="Phone.cs" />
     <Compile Include="Models\PhoneStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
