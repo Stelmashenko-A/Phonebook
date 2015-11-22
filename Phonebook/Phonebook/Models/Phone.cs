@@ -2,15 +2,17 @@
 {
     public class Phone
     {
+        public Phone() { }
         public Phone(string number, string description="")
         {
             Number = number;
             Description = description;
         }
 
-        public string Number { get; }
+        public int Id { get; protected set; }
+        public string Number { get; protected set; }
 
-        public string Description { get; }
+        public string Description { get; protected set; }
 
         public override bool Equals(object obj)
         {

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Phonebook.Models;
+using Raven.Abstractions.Extensions;
 using Raven.Client;
 using Raven.Client.Document;
 
-namespace Phonebook
+namespace Phonebook.Raven
 {
     public class RavenRepository : IRepository
     {
@@ -39,7 +42,7 @@ namespace Phonebook
                 try
                 {
                     return
-                        session.Query<Document>().First(x => x.Account.Id == id).Phones;
+                        session.Query<Account>().First(x => x.Id == id).Phones;
                 }
                 catch (KeyNotFoundException)
                 {
@@ -52,8 +55,17 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                return
-                    session.Query<Document>().First(x => x.Account.UserName == userName).Phones;
+                try
+                {
+                    return
+                    session.Query<Account>().First(x => x.UserName == userName).Phones;
+                }
+                catch (Exception)
+                {
+                    
+                    return new List<Phone>();
+                }
+                
             }
         }
 
@@ -62,20 +74,22 @@ namespace Phonebook
             using (var session = Store.OpenSession())
             {
 
-                return session.Query<Document>().Select(x => x.Account.UserName);
+                return session.Query<Account>().Select(x => x.UserName);
             }
         }
 
         public IEnumerable<KeyValuePair<string, IList<Phone>>> GetAllPhones()
-        {//todo fix
-            using (var session = Store.OpenSession())
+        {
+//todo fix
+            /*using (var session = Store.OpenSession())
             {
                 var phoneStorage = session.Query<PhoneStorage>().First().Data;
                 return
                     phoneStorage.Values.Select(
                         variable => new KeyValuePair<string, IList<Phone>>(variable.Key.UserName, variable.Value))
                         .ToList();
-            }
+            }*/
+            return null;
         }
 
         public void AddUser(string userName, IList<Phone> phones)
@@ -83,32 +97,34 @@ namespace Phonebook
             using (var session = Store.OpenSession())
             {
                 var id = ReservNextId();
-                var doc = new Document(new Account(userName, id), phones.ToList());
-                session.Store(doc);
-                var s = doc.Id;
+                var acc = new Account(userName, id) {Phones = phones};
+                session.Store(acc);
                 session.SaveChanges();
+                Thread.Sleep(500);
             }
         }
 
         public void AddUser(string userName)
         {
-            AddUser(userName,new List<Phone>());
+            AddUser(userName, new List<Phone>());
+            Thread.Sleep(500);
         }
 
         public void AddPhone(int id, Phone phone)
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<Document>().First(x=>x.Account.Id==id).Phones.Add(phone);
+                session.Query<Account>().First(x => x.Id == id).Phones.Add(phone);
                 session.SaveChanges();
             }
+            Thread.Sleep(500);
         }
 
         public void AddPhone(int id, IList<Phone> phones)
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<Document>().First(x => x.Account.Id == id).Phones.AddRange(phones);
+                session.Query<Account>().First(x => x.Id == id).Phones.AddRange(phones);
                 session.SaveChanges();
             }
         }
@@ -117,7 +133,7 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<Document>().First(x => x.Account.UserName==userName).Phones.Add(phone);
+                session.Query<Account>().First(x => x.UserName == userName).Phones.Add(phone);
                 session.SaveChanges();
             }
         }
@@ -126,7 +142,7 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<Document>().First(x => x.Account.UserName == userName).Phones.AddRange(phones);
+                session.Query<Account>().First(x => x.UserName == userName).Phones.AddRange(phones);
                 session.SaveChanges();
             }
         }
@@ -135,7 +151,7 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Delete(session.Query<Document>().First(x => x.Account.Id == id).Id);
+                session.Delete(session.Query<Account>().First(x => x.Id == id).Id);
                 session.SaveChanges();
             }
         }
@@ -144,7 +160,8 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Delete(session.Advanced.GetDocumentId(session.Query<Document>().First(x => x.Account.UserName == userName)));
+                session.Delete(
+                    session.Advanced.GetDocumentId(session.Query<Account>().First(x => x.UserName == userName)));
                 session.SaveChanges();
             }
         }
@@ -153,7 +170,7 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<Document>().First(x => x.Account.Id == id).Phones.Remove(phone);
+                session.Query<Account>().First(x => x.Id == id).Phones.Remove(phone);
                 session.SaveChanges();
             }
         }
@@ -162,8 +179,8 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                session.Query<Document>()
-                    .First(x => x.Account.UserName == userName)
+                session.Query<Account>()
+                    .First(x => x.UserName == userName)
                     .Phones.Remove(phone);
                 session.SaveChanges();
             }
@@ -173,8 +190,8 @@ namespace Phonebook
         {
             using (var session = Store.OpenSession())
             {
-                return session.Query<Document>()
-                    .First(x => x.Account.UserName == userName).Account.Id;
+                return session.Query<Account>()
+                    .First(x => x.UserName == userName).Id;
             }
         }
     }

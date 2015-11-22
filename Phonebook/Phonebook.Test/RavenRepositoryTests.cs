@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Phonebook.Exceptions;
+using Phonebook.Raven;
 
 namespace Phonebook.Test
     //moq

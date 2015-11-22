@@ -1,4 +1,4 @@
-﻿namespace Phonebook.Models
+﻿namespace Phonebook.Raven
 {
     class MaxId
     {

@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Phonebook;
+using Phonebook.MSSQL;
+using Phonebook.Raven;
 
 namespace UserInterface
 {
@@ -12,17 +16,37 @@ namespace UserInterface
         public MainForm()
         {
             InitializeComponent();
-            listBoxUsers.DataSource = _repository.GetAllUserNames().ToList();
+            List<string> data;
+            try
+            {
+                data = _repository.GetAllUserNames().ToList();
+            }
+            catch (Exception)
+            {
+
+                data = new List<string>();
+            }
+            listBoxUsers.DataSource = data;
             dataGridViewPhones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewPhones.MultiSelect = false;
+
+            try
+            {
+                var s = listBoxUsers.Items[0].ToString();
+                var n = _repository.GetPhone(s);
+                ViewPhones(n);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
-        private void listBoxUsers_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void listBoxUsers_SelectedIndexChanged(object sender, EventArgs e)
         {
             var s = listBoxUsers.SelectedItem.ToString();
             var n = _repository.GetPhone(s);
             ViewPhones(n);
-
         }
 
         private void ViewPhones(IEnumerable<Phone> phones)
@@ -34,7 +58,7 @@ namespace UserInterface
             }
         }
 
-        private void buttonAddPhone_Click(object sender, System.EventArgs e)
+        private void buttonAddPhone_Click(object sender, EventArgs e)
         {
             var phoneForm = new PhoneForm(_repository, listBoxUsers.SelectedItem.ToString());
             phoneForm.ShowDialog(this);
@@ -43,20 +67,29 @@ namespace UserInterface
             ViewPhones(n);
         }
 
-        private void buttonAddUser_Click(object sender, System.EventArgs e)
+        private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            var form = new NewUser(_repository);
-
-            form.ShowDialog();
-            listBoxUsers.DataSource = _repository.GetAllUserNames().ToList();
-            var s = listBoxUsers.SelectedItem.ToString();
-            var n = _repository.GetPhone(s);
-            ViewPhones(n);
+            try
+            {
+                var form = new NewUser(_repository);
+                form.ShowDialog();
+                
+                listBoxUsers.DataSource = _repository.GetAllUserNames().ToList();
+                
+                var s = listBoxUsers.SelectedItem.ToString();
+                var n = _repository.GetPhone(s);
+                ViewPhones(n);
+            }
+            catch (Exception)
+            {
+                
+                
+            }
+            
         }
 
-        private void buttonRemoveAccount_Click(object sender, System.EventArgs e)
+        private void buttonRemoveAccount_Click(object sender, EventArgs e)
         {
-
             var s = listBoxUsers.SelectedItem.ToString();
             _repository.RemoveUser(s);
             listBoxUsers.SelectedIndex = 0;
@@ -66,7 +99,7 @@ namespace UserInterface
             listBoxUsers.DataSource = _repository.GetAllUserNames().ToList();
         }
 
-        private void buttonRemovePhone_Click(object sender, System.EventArgs e)
+        private void buttonRemovePhone_Click(object sender, EventArgs e)
         {
             var number = dataGridViewPhones.SelectedRows[0].Cells[0].Value.ToString();
             var description = dataGridViewPhones.SelectedRows[0].Cells[1].Value.ToString();

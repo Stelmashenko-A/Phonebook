@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Phonebook.Models;
 
-namespace Phonebook.Models
+namespace Phonebook.Raven
 {
     class Document
     {
@@ -11,8 +12,11 @@ namespace Phonebook.Models
         }
 
         public string Id { get; set; }
+
         public Account Account { get; set; }
+
         public List<Phone> Phones { get; set; }
+
         public override bool Equals(object obj)
         {
             var tmp = obj as Document;
